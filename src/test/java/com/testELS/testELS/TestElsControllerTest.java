@@ -44,9 +44,7 @@ public class TestElsControllerTest {
   public void testGetUniqueEmployeeListByCriteria() throws Exception {
 
     //given
-    String criteriaFirstName = "firstName";
-    String criteriaLastName = "lastName";
-    String criteriaCountry = "country";
+    String criteria = "lastName";
     Employee employee1 = new Employee("1", "david", "alex", "france");
     Employee employee2 = new Employee("2", "mickel", "alexi", "france");
     Employee employee3 = new Employee("3", "mickel", "yoyo", "france");
@@ -56,23 +54,17 @@ public class TestElsControllerTest {
     employeeList.add(employee3);
 
     // when
-    when(employeeRepository.findAll()).thenReturn(employeeList);
+    when(employeeService.getUniqueEmployeeListByCriteria(any())).thenReturn(employeeList);
 
     // then
-    mockMvc.perform(get("/api/employees/" + criteriaFirstName))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$", hasSize(2)));
 
-    mockMvc.perform(get("/api/employees/" + criteriaLastName))
+    mockMvc.perform(get("/api/employees/" + criteria))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$", hasSize(3)));
 
-    mockMvc.perform(get("/api/employees/" + criteriaCountry))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$",hasSize(1)));
 
 
-    verify(employeeService, times(3)).getUniqueEmployeeListByCriteria(any());
+    verify(employeeService, times(1)).getUniqueEmployeeListByCriteria(any());
     verifyNoMoreInteractions(employeeService);
 
   }
