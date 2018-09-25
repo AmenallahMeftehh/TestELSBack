@@ -2,11 +2,15 @@ package com.testELS.testELS.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.DBObject;
 import com.testELS.testELS.entities.Employee;
 import com.testELS.testELS.repository.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,7 +29,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
     @Autowired
     EmployeeRepository employeesRepository;
-
+    @Autowired
+    MongoTemplate mongoTemplate;
     @Override
     public List<Employee> extractData() {
         ObjectMapper mapper = new ObjectMapper();
